@@ -3,6 +3,8 @@
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 640;
+#define SDL_HINT_FRAMEBUFFER_ACCELERATION 0;
+#define SDL_HINT_RENDER_DRIVER "software";
 
 int main() {
     SDL_Window* window = NULL;
@@ -14,7 +16,11 @@ int main() {
     }
     else
     {
-        window = SDL_CreateWindow("AxeEngine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow("AxeEngine",\
+                                  SDL_WINDOWPOS_UNDEFINED,\
+                                  SDL_WINDOWPOS_UNDEFINED,\
+                                  SCREEN_WIDTH, SCREEN_HEIGHT,\
+                                  SDL_WINDOW_SHOWN);
         if(window == NULL){
             std::cout << "FEL!";
         }
@@ -22,7 +28,7 @@ int main() {
         {
             surface = SDL_GetWindowSurface(window);
             std::cout << surface << std::endl;
-            std::cout << SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255));
+            SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 255, 255));
             SDL_UpdateWindowSurface(window);
             SDL_Delay(20000);
         }
