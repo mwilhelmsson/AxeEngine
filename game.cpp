@@ -49,6 +49,7 @@ void Game::handleEvents(){
     switch(event.type) {
         case SDL_QUIT:
             isRunning = false;
+            break;
         default:
             break;
     }

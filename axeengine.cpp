@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
                SDL_WINDOWPOS_CENTERED, \
                800, \
                600, \
-               true);
+               false);
     while(game->running()){
         game->handleEvents();
         game->update();
