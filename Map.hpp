@@ -1,6 +1,6 @@
 #ifndef __MAP_H_
 #define __MAP_H_
-#include "game.h"
+#include "game.hpp"
 
 class Map {
 

@@ -1,6 +1,6 @@
 #ifndef __TEXTUREMANAGER_H_
 #define __TEXTUREMANAGER_H_
-#include "game.h"
+#include "game.hpp"
 
 class TextureManager {
 
