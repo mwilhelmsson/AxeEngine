@@ -28,4 +28,34 @@ constexpr std::size_t maxComponents = 32;
 using ComponentBitSet = std::bitset<maxComponents>;
 using ComponentArray = std::array<Component*, maxComponents>;
 
+class Component{
+public:
+    Entity* entity;
+
+    virtual void init();
+    virtual void update();
+    virtual void draw();
+
+    virtual ~Component();
+};
+
+class Entity{
+public:
+
+    void update(){
+        for(auto& c : components) c->update();
+        for(auto& c : components) c->draw();
+    }
+
+    void draw(){}
+    bool isActive(){ return active; }
+
+private:
+    bool active = true;
+    std::vector<std::unique_ptr<Component>> components;
+
+    ComponentArray componentArray;
+    ComponentBitSet componentBitSet;
+};
+
 #endif // __ECS_H_
