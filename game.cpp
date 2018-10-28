@@ -3,6 +3,7 @@
 #include "Map.hpp"
 #include "ECS/Components.hpp"
 #include "Vector2D.hpp"
+#include "Collision.hpp"
 
 Map* map;
 
@@ -10,7 +11,10 @@ SDL_Renderer* Game::renderer = nullptr;
 
 Manager manager;
 auto& player(manager.addEntity());
+auto& wall(manager.addEntity());
 
+
+SDL_Event Game::event;
 Game::Game()
 {}
 
@@ -57,12 +61,17 @@ void Game::init(const char* title, \
 
     // ECS
     //
-    player.addComponent<TransformComponent>();
+    player.addComponent<TransformComponent>(2);
     player.addComponent<SpriteComponent>("assets/ugly.png");
+    player.addComponent<KeyboardController>();
+    player.addComponent<ColliderComponent>("player");
+
+    wall.addComponent<TransformComponent>(300.0f, 300.0f, 300,20,1);
+    wall.addComponent<SpriteComponent>("assets/dirt.png");
+    wall.addComponent<ColliderComponent>("wall");
 }
 
 void Game::handleEvents(){
-    SDL_Event event;
     SDL_PollEvent(&event);
     switch(event.type) {
         case SDL_QUIT:
@@ -77,10 +86,13 @@ void Game::update(){
     manager.refresh();
     manager.update();
 
-    player.getComponent<TransformComponent>().position.Add(Vector2D(50, 0));
-    if(player.getComponent<TransformComponent>().position.x > 100){
-        player.getComponent<SpriteComponent>().setTex("assets/ugly2.png");
+
+    if(Collision::AABB(player.getComponent<ColliderComponent>().collider,\
+                       wall.getComponent<ColliderComponent>().collider)){
+        player.getComponent<TransformComponent>().scale = 1;
+        std::cout << "Collision!" << std::endl;
     }
+
 }
 
 void Game::render(){
